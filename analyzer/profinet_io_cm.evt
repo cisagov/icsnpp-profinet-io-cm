@@ -1,0 +1,39 @@
+## profinet_io_cm_control.spicy
+##
+## Spicy Analyzer EVT file for Profinet IO CM
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright Evt(c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+import PROFINET_IO_CM_MESSAGE;
+import PROFINET_IO_CM_RPC_HEADER;
+import Zeek_PROFINETIO;
+
+protocol analyzer spicy::PROFINET_IO_CM over UDP:
+    parse with PROFINET_IO_CM_MESSAGE::Messages;
+
+#
+#
+#   PROFINET IO CM RPC HEADER
+#
+#
+export PROFINET_IO_CM_RPC_HEADER::RpcHeader             as PROFINET_IO_CM::RpcHeader;
+export PROFINET_IO_CM_RPC_HEADER::NdrDataRequestLittle  as PROFINET_IO_CM::NdrDataRequestLittle;
+export PROFINET_IO_CM_RPC_HEADER::NdrDataRequestBig     as PROFINET_IO_CM::NdrDataRequestBig;
+export PROFINET_IO_CM_RPC_HEADER::NdrDataResponseLittle as PROFINET_IO_CM::NdrDataResponseLittle;
+export PROFINET_IO_CM_RPC_HEADER::NdrDataResponseBig    as PROFINET_IO_CM::NdrDataResponseBig;
+export PROFINET_IO_CM_RPC_HEADER::NdrFackBig            as PROFINET_IO_CM::NdrFackBig;
+export PROFINET_IO_CM_RPC_HEADER::NdrFackLittle         as PROFINET_IO_CM::NdrFackLittle;
+export PROFINET_IO_CM_RPC_HEADER::Data_Rep              as PROFINET_IO_CM::Data_Rep;
+export PROFINET_IO_CM_RPC_HEADER::RpcBodyBigEndian      as PROFINET_IO_CM::RpcBodyBigEndian;
+export PROFINET_IO_CM_RPC_HEADER::RpcBodyLittleEndian   as PROFINET_IO_CM::RpcBodyLittleEndian;
+
+on PROFINET_IO_CM_RPC_HEADER::RpcHeader -> event PROFINET_IO_CM::RpcHeaderEvt(
+   $conn,
+   $is_orig,
+   self
+);
+

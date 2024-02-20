@@ -1,0 +1,22 @@
+## zeek_profinetio.spicy
+##
+## Zeek protocol hooks for Profinet IO Analyzer
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module Zeek_PROFINETIO;
+
+import PROFINET_IO_CM_MESSAGE;
+import spicy;
+
+on PROFINET_IO_CM_MESSAGE::Message::%done {
+    spicy::accept_input();
+}
+
+on PROFINET_IO_CM_MESSAGE::Message::%error {
+    spicy::decline_input("error parsing PROFINET_IO_CM message");
+}

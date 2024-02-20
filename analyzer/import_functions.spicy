@@ -1,0 +1,16 @@
+## import_functions.spicy
+##
+## Spicy File that is written to import custom C Functions from c_functions.cc
+## that will be written to the log files.
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module IMPORT_FUNCTIONS;
+
+public function generateId() : string &cxxname="c_functions::generateId";
+public function bytesToUuid(data1:bytes, data2: bytes, data3: bytes, vendorIdLow: bytes, vendorIdHigh: bytes, deviceIdLow: bytes, deviceIdHigh: bytes, instanceLow: bytes, instanceHigh: bytes, rpcObjectUUID: bytes) : string &cxxname="c_functions::bytesToUuid";
+public function macAddress(byte_string: bytes) : string &cxxname="c_functions::macAddress";
+public function bytesToString(byteString: bytes) : string &cxxname="c_functions::bytesToString";

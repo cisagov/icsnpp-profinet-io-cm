@@ -1,0 +1,84 @@
+## profinet_io_cm_message.spicy
+##
+## Spicy Analyzer Top for Profinet IO
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module PROFINET_IO_CM_MESSAGE;
+
+import PROFINET_IO_CM_RPC_HEADER;
+import PROFINET_IO_CM_ENUMS;
+import spicy;
+
+public type Messages = unit {
+    %context = ConfigFragmentation;
+    : Message(self.context())[] &eod;
+};
+
+type ConfigFragmentation = map<string, Message>;
+
+type Message = unit(inout cfgFrag : ConfigFragmentation&) {
+    rpcHeader           : PROFINET_IO_CM_RPC_HEADER::RpcHeader;
+    var operationNum    : PROFINET_IO_CM_ENUMS::PnioServicesValue &optional;
+    var activityUuid    : string &optional;
+    var lenOfBody       : uint16 &optional;
+    var fragmentNum     : uint16 &optional;
+    var fragmentData    : bytes &optional;
+                        : bytes &eod &chunked &optional if(self.lenOfBody != 0){
+                            if(self.rpcHeader.rpcFlags1.fragment == True && self.rpcHeader.rpcFlags1.lastFragment == False){
+                                self.fragmentData = $$;
+                                cfgFrag[self.activityUuid] = self;
+                            }else{
+                                self.data.connect(new Service(self));
+                                if(self.fragmentNum !=0 && self.activityUuid in cfgFrag){
+                                    self.lenOfBody = self.lenOfBody + cfgFrag[self.activityUuid].lenOfBody;
+                                    self.data.write(cfgFrag[self.activityUuid].fragmentData+$$,cfgFrag[self.activityUuid].fragmentNum);
+                                }else{
+                                    self.data.write($$,self.fragmentNum);
+                                }
+                            }
+	                    }
+    sink data;
+    on rpcHeader{
+        if(self.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN) {
+            self.operationNum   = self.rpcHeader.rpcBodyLittleEndian.operationNum;
+            self.lenOfBody      = self.rpcHeader.rpcBodyLittleEndian.lenOfBody;
+            self.fragmentNum    = self.rpcHeader.rpcBodyLittleEndian.fragmentNum;
+            self.activityUuid   = self.rpcHeader.rpcBodyLittleEndian.activityUuid.uidValue;
+        }
+        else{
+            self.operationNum   = self.rpcHeader.rpcBodyBigEndian.operationNum;
+            self.lenOfBody      = self.rpcHeader.rpcBodyBigEndian.lenOfBody;
+            self.fragmentNum    = self.rpcHeader.rpcBodyBigEndian.fragmentNum;
+            self.activityUuid   = self.rpcHeader.rpcBodyBigEndian.activityUuid.uidValue;
+        }
+    }
+    on %error(msg: string) {
+        ## Debug
+        ## print "###############################";
+        ## print " EXCEPTION:";
+        ## print "     %s" % msg;
+        ## print "###############################";
+    }
+};
+
+type Service = unit(message: Message) {
+    ndrDataResponseBig      : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseBig() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrDataRequestBig       : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestBig() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrDataResponseLittle   : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseLittle() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    ndrDataRequestLittle    : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestLittle() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    restOfData              : bytes &eod &optional;
+
+    on %error(msg: string) {
+        ## Debug
+        ## print "###############################";
+        ## print " EXCEPTION:";
+        ## print "     %s" % msg;
+        ## print "###############################";
+    }
+};
+

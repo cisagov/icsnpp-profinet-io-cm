@@ -1,0 +1,157 @@
+## profinet_io_cm_rpc_header.spicy
+##
+## Spicy Analyzer File for Profinet IO RPC Header
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module PROFINET_IO_CM_RPC_HEADER;
+import IMPORT_FUNCTIONS;
+import PROFINET_IO_CM_TYPES;
+import PROFINET_IO_CM_ENUMS;
+import PROFINET_IO_CM_MULTI;
+import spicy;
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Table 4.10.3.2.5
+type Data_Rep = unit (){
+    characterIntegerEncoding            : bitfield(8) {
+        rpcdRepIntegerEncoding          : 4..7 &convert=PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding($$);
+        rpcdRepCharacterEncoding        : 0..3 &convert=PROFINET_IO_CM_ENUMS::RpcdRepCharacterEncoding($$);
+    };
+    floatPointEncoding                  : bitfield(8) {
+        floatingPointRepresentation     : 0..2 &convert=PROFINET_IO_CM_ENUMS::FloatingPointRepresentation($$);
+    };
+    shouldBeSetToZero                   : uint8;
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3
+type RpcBodyBigEndian = unit {
+   serialHigh                      : uint8;
+    objectUuid                      : PROFINET_IO_CM_TYPES::Uuid() &byte-order=spicy::ByteOrder::Big;
+    interfaceUuid                   : PROFINET_IO_CM_TYPES::Uuid() &byte-order=spicy::ByteOrder::Big;
+    activityUuid                    : PROFINET_IO_CM_TYPES::Uuid() &byte-order=spicy::ByteOrder::Big;
+    serverBootTime                  : uint32;
+    interfaceVersion                : bitfield(32) {
+        rpcInterfaceVersionMajor    : 16..31;
+        rpcInterfaceVersionMinor    : 0..15;
+    };
+    sequenceNum                     : uint32;
+    operationNum                    : uint16 &convert=PROFINET_IO_CM_ENUMS::PnioServicesValue($$);
+    interfaceHint                   : uint16;
+    activityHint                    : uint16;
+    lenOfBody                       : uint16;
+    fragmentNum                     : uint16;
+    authProtocol                    : uint8;
+    serialLow                       : uint8;
+ } &byte-order=spicy::ByteOrder::Big;
+
+ type NdrFackBig = unit(){
+    rpcVersionFack      : uint8 &convert=PROFINET_IO_CM_ENUMS::RpcVersionFack($$);
+    rpcPad1             : uint8;
+    rpcWindowSize       : uint16;
+    rpcMaxTsdu          : uint32;
+    rpcMaxFragSize      : uint32;
+    rpcSerialNumber     : uint16;
+    rpcSelAckLen        : uint16;
+    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen] &optional;
+    additionalBytes     : bytes &eod;
+ } &byte-order=spicy::ByteOrder::Big;
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3
+type RpcBodyLittleEndian = unit {
+    serialHigh                      : uint8;
+    objectUuid                      : PROFINET_IO_CM_TYPES::UuidLittle() &byte-order=spicy::ByteOrder::Little;
+    interfaceUuid                   : PROFINET_IO_CM_TYPES::UuidLittle() &byte-order=spicy::ByteOrder::Little;
+    activityUuid                    : PROFINET_IO_CM_TYPES::UuidLittle() &byte-order=spicy::ByteOrder::Little;
+    serverBootTime                  : uint32;
+    interfaceVersion                : bitfield(32) {
+        rpcInterfaceVersionMajor    : 16..31;
+        rpcInterfaceVersionMinor    : 0..15;
+    };
+    sequenceNum                     : uint32;
+    operationNum                    : uint16 &convert=PROFINET_IO_CM_ENUMS::PnioServicesValue($$);
+    interfaceHint                   : uint16;
+    activityHint                    : uint16;
+    lenOfBody                       : uint16;
+    fragmentNum                     : uint16;
+    authProtocol                    : uint8;
+    serialLow                       : uint8;
+} &byte-order=spicy::ByteOrder::Little;
+
+type NdrFackLittle = unit(){
+    rpcVersionFack      : uint8 &convert=PROFINET_IO_CM_ENUMS::RpcVersionFack($$);
+    rpcPad1             : uint8;
+    rpcWindowSize       : uint16;
+    rpcMaxTsdu          : uint32;
+    rpcMaxFragSize      : uint32;
+    rpcSerialNumber     : uint16;
+    rpcSelAckLen        : uint16;
+    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen] &optional;
+    additionalBytes     : bytes &eod;
+} &byte-order=spicy::ByteOrder::Little;
+
+# Array, subunit of ConnectArgs
+type NdrDataRequestLittle = unit() {
+    argsMaximum     : uint32;
+    argslen         : uint32;
+    maximumCount    : uint32;
+    offset          : uint32;
+    actualCount     : uint32;
+} &byte-order=spicy::ByteOrder::Little;
+
+# Array, subunit of ConnectArgs
+type NdrDataRequestBig = unit() {
+    argsMaximum     : uint32;
+    argslen         : uint32;
+    maximumCount    : uint32;
+    offset          : uint32;
+    actualCount     : uint32;
+} &byte-order=spicy::ByteOrder::Big;
+
+ # Array, subunit of ConnectArgs
+type NdrDataResponseLittle = unit() {
+    pnioStatus      : PROFINET_IO_CM_MULTI::PnioStatus();
+    argslen         : uint32;
+    maximumCount    : uint32;
+    offset          : uint32;
+    actualCount     : uint32;
+} &byte-order=spicy::ByteOrder::Little;
+
+ # Array, subunit of ConnectArgs
+type NdrDataResponseBig = unit() {
+    pnioStatus      : PROFINET_IO_CM_MULTI::PnioStatus();
+    argslen         : uint32;
+    maximumCount    : uint32;
+    offset          : uint32;
+    actualCount     : uint32;
+} &byte-order=spicy::ByteOrder::Big;
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3
+type RpcHeader = unit () {
+    rpcVersion                          : uint8;
+    pduType                             : bitfield(8) {
+        packetType                      : 0..4 &convert=PROFINET_IO_CM_ENUMS::PduType($$);
+    };
+    rpcFlags1                           : bitfield(8) {
+        implementationSpecificSetTo0_1  : 7 &convert=cast<bool>($$);
+        broadcast                       : 6 &convert=cast<bool>($$);
+        idempotent                      : 5 &convert=cast<bool>($$);
+        maybe                           : 4 &convert=cast<bool>($$);
+        noFragmentRequested             : 3 &convert=cast<bool>($$);
+        fragment                        : 2 &convert=cast<bool>($$);
+        lastFragment                    : 1 &convert=cast<bool>($$);
+        implementationSpecificSetTo0_2  : 0 &convert=cast<bool>($$);
+    };
+    rpcFlags2                           : bitfield(8) {
+        cancelWasPendingAtCallEnd       : 1 &convert=cast<bool>($$);
+        implementationSpecificSetTo0_3  : 0 &convert=cast<bool>($$);
+    };
+    drepBytes                       : Data_Rep(); # DrepBytes sets a character encoding that determines if the following fields are little or big endian
+    rpcBodyLittleEndian             : RpcBodyLittleEndian() &optional if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    ndrFackLittle                   : NdrFackLittle() &optional if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    rpcBodyBigEndian                : RpcBodyBigEndian() &optional if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrFackBig                      : NdrFackBig()  &optional if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+};

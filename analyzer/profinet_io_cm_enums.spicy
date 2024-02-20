@@ -1,0 +1,703 @@
+## profinet_io_cm_enums.spicy
+##
+## Enumerations for the PROFINET_IO_CM Protocol
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module PROFINET_IO_CM_ENUMS;
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.2 Table 270
+public type PduType = enum {
+    REQUEST                     = 0,
+    PING                        = 1,
+    RESPONSE                    = 2,
+    FAULT                       = 3,
+    WORKING                     = 4,
+    NO_CALL_RESPONSE_TO_PING    = 5,
+    REJECT                      = 6,
+    ACKNOWLEDGE                 = 7,
+    CONNECTIONLESS_CANCEL       = 8,
+    FRAGMENT_ACKNOWLEDGE        = 9,
+    CANCEL_ACKNOWLEDGE          = 10,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.5 Table 273
+public type RpcdRepCharacterEncoding = enum {
+    ASCII   = 0,
+    EBCDIC  = 1
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.5 Table 273
+public type RpcdRepIntegerEncoding = enum {
+    _BIG_ENDIAN      = 0,
+    _LITTLE_ENDIAN   = 1
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.5 Table 274
+public type FloatingPointRepresentation = enum {
+    IEEE    = 0,
+    VAX     = 1,
+    CRAY    = 2,
+    IBM     = 3
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.14 Table 282
+public type PnioServicesValue = enum {
+    CONNECT         = 0,
+    RELEASE         = 1,
+    READ            = 2,
+    WRITE           = 3,
+    CONTROL         = 4,
+    READ_IMPLICIT   = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 4.10.3.2.23 Table 284
+public type RpcVersionFack = enum {
+    INITIAL     = 0,
+    DEFAULT     = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 538
+public type PnioStatusErrorCode = enum {
+    NO_ERROR            = 0,
+    PNIO                = 129,
+    RTA_ERROR           = 207,
+    ALARM_ACK           = 218,
+    IOD_CONNECT_RES     = 219,
+    IOD_RELEASE_RES     = 220,
+    IOD_IOX_CONTROL_RES = 221,
+    IOD_READ_RES        = 222,
+    IOD_WRITE_RES       = 223,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 539
+public type PnioStatusErrorDecode = enum {
+    NO_ERROR                = 0,
+    PNIORW                  = 128,
+    PNIO                    = 129,
+    MANUFACTURER_SPECIFIC   = 130,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 540
+public type ErrorCode1Class = enum {
+    NO_ERROR            = 0,
+    APPLICATION         = 10,
+    ACCESS              = 11,
+    RESOURCE            = 12,
+    _13_USER_SPECIFIC   = 13,
+    _14_USER_SPECIFIC   = 14,
+    _15_USER_SPECIFIC   = 15,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 540
+public type ErrorCode1CodeApplication = enum {
+    READ_ERROR              = 0,
+    WRITE_ERROR             = 1,
+    BUSY                    = 7,
+    VERSION_CONFLICT        = 8,
+    FEATURE_NOT_SUPPORTED   = 9,
+    USER_SPECIFIC_1         = 10,
+    USER_SPECIFIC_2         = 11,
+    USER_SPECIFIC_3         = 12,
+    USER_SPECIFIC_4         = 13,
+    USER_SPECIFIC_5         = 14,
+    USER_SPECIFIC_6         = 15,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 540
+public type ErrorCode1CodeAccess = enum {
+    INVALID_INDEX           = 0,
+    WRITE_LENGTH_ERROR      = 1,
+    INVALID_SLOT_SUBSLOT    = 2,
+    TYPE_CONFLICT           = 3,
+    INVALID_AREA_API        = 4,
+    STATE_CONFLICT          = 5,
+    ACCESS_DENIED           = 6,
+    INVALID_RANGE           = 7,
+    INVALID_PARAMETER       = 8,
+    INVALID_TYPE            = 9,
+    BACKUP                  = 10,
+    USER_SPECIFIC_7         = 11,
+    USER_SPECIFIC_8         = 12,
+    USER_SPECIFIC_9         = 13,
+    USER_SPECIFIC_10        = 14,
+    USER_SPECIFIC_11        = 15,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section5.2.6.2 Table 540
+public type ErrorCode1CodeResource = enum {
+    READ_CONSTRAIN_CONFLICT     = 0,
+    WRITE_CONSTRAIN_CONFLICT    = 1,
+    RESOURCE_BUSY               = 2,
+    RESOURCE_UNAVAILABLE        = 3,
+    USER_SPECIFIC_12            = 8,
+    USER_SPECIFIC_13            = 9,
+    USER_SPECIFIC_14            = 10,
+    USER_SPECIFIC_15            = 11,
+    USER_SPECIFIC_16            = 12,
+    USER_SPECIFIC_17            = 13,
+    USER_SPECIFIC_18            = 14,
+    USER_SPECIFIC_19            = 15,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 542
+public type ErrorCode1Pnio = enum {
+    FAULTY_AR_BLOCK_REQ                         = 1,
+    FAULTY_IOCR_BLOCK_REQ                       = 2,
+    FAULTY_EXPECTED_SUBMODULE_BLOCK_REQ         = 3,
+    FAULTY_ALARM_CR_BLOCK_REQ                   = 4,
+    FAULTY_PRM_SERVER_BLOCK                     = 5,
+    FAULTY_MCR_BLOCK_REQ                        = 6,
+    FAULTY_ARRPC_BLOCK_REQ                      = 7,
+    FAULTY_RECORD                               = 8,
+    FAULTY_IR_INFO_BLOCK                        = 9,
+    FAULTY_SR_INFO_BLOCK                        = 10,
+    FAULTY_ARFSU_BLOCK                          = 11,
+    FAULTY_AR_VENDOR_BLOCK_REQ                  = 12,
+    FAULTY_RS_INFO_BLOCK                        = 13,
+    FAULTY_CONTROL_BLOCK_CONNECT                = 20,
+    FAULTY_CONTROL_BLOCK_PLUG                   = 21,
+    FAULTY_CONTROL_BLOCK_CONNECT_AFTER          = 22,
+    FAULTY_CONTROL_BLOCK_PLUG_AFTER             = 23,
+    FAULTY_CONTROL_BLOCK_PRM_BEGIN              = 24,
+    FAULTY_SUBMODULE_LIST_BLOCK                 = 25,
+    FAULTY_RELEASE_BLOCK                        = 40,
+    FAULTY_AR_BLOCK_RES                         = 50,
+    FAULTY_IOCR_BLOCK_RES                       = 51,
+    FAULTY_ALARM_CR_BLOCK_RES                   = 52,
+    FAULTY_MODULE_DIFF_BLOCK                    = 53,
+    FAULTY_ARRPC_BLOCK_RES                      = 54,
+    FAULTY_AR_SERVER_BLOCK_RES                  = 55,
+    FAULTY_AR_VENDOR_BLOCK_RES                  = 56,
+    ALARM_ACK_ERROR_CODES                       = 60,
+    CMDEV                                       = 61,
+    CMCTL                                       = 62,
+    CTLDINA                                     = 63,
+    CMRPC                                       = 64,
+    ALPMI                                       = 65,
+    ALPMR                                       = 66,
+    LMPM                                        = 67,
+    MAC                                         = 68,
+    RPC                                         = 69,
+    APMR                                        = 70,
+    APMS                                        = 71,
+    CPM                                         = 72,
+    PPM                                         = 73,
+    DCPUCS                                      = 74,
+    DCPUCR                                      = 75,
+    DCPMCS                                      = 76,
+    DCPMCR                                      = 77,
+    FSPM                                        = 78,
+    CTLSM                                       = 100,
+    CTLRDI                                      = 101,
+    CTLRDR                                      = 102,
+    CTLWRI                                      = 103,
+    CTLWRR                                      = 104,
+    CTLIO                                       = 105,
+    CTLSU                                       = 106,
+    CTLRPC                                      = 107,
+    CTLPBE                                      = 108,
+    CTLSRL                                      = 109,
+    CMSM                                        = 200,
+    CMRDR                                       = 202,
+    CMWRR                                       = 204,
+    CMIO                                        = 205,
+    CMSU                                        = 206,
+    CMINA                                       = 208,
+    CMPBA                                       = 209,
+    CMSRL                                       = 210,
+    CMDMC                                       = 211,
+    RTA_ERR_CLS_PROTOCOL                        = 253,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_NAME_OF_STATION = 13,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyIocrBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE          = 0,
+    ERROR_PARAMETER_LENGTH              = 1,
+    ERROR_PARAMETER_IOCS_FRAME_OFFSET   = 28,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyExpectedSubmoduleBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE  = 0,
+    ERROR_PARAMETER_LENGTH      = 1,
+    ERROR_PARAMETER_LENGTH_IOCS = 16,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyAlarmCrBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE              = 0,
+    ERROR_PARAMETER_LENGTH                  = 1,
+    ERROR_PARAMETER_ALARM_CR_TAG_HEADER_LOW = 15,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyPrmServerBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE          = 0,
+    ERROR_PARAMETER_LENGTH              = 1,
+    ERROR_PARAMETER_SERVER_STATION_NAME = 8,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyMcrBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE              = 0,
+    ERROR_PARAMETER_LENGTH                  = 1,
+    ERROR_PARAMETER_I_PROVIDER_STATION_NAME = 4,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArrpcBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_INITATOR_RPC_SERVER_PORT    = 4,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyRecord = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_TARGET_ARUUID   = 12,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyIrInfoBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_IR_DATA_UUID    = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultySrInfoBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_SR_PROPERTIES   = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArfsuBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE  = 0,
+    ERROR_PARAMETER_LENGTH      = 1,
+    FAST_START_UP_BLOCK         = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArVendorBlockReq = enum {
+    ERROR_PARAMETER_BLOCK_TYPE  = 0,
+    ERROR_PARAMETER_LENGTH      = 1,
+    ERROR_PARAMETER_API         = 5,
+    ERROR_PARAMETER_DATA        = 6,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyRsInfoBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_RS_PROPERTIES   = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyControlBlockConnect = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 9,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyControlBlockPlug = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 9,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyControlBlockConnectAfter = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 7,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyControlBlockPlugAfter = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 7,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyControlBlockPrmBegin = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 9,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultySubmoduleListBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_SUBSLOT_NUMBER  = 7,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyReleaseBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CONTROL_BLOCK_PROPERTIES    = 7,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE          = 0,
+    ERROR_PARAMETER_LENGTH              = 1,
+    ERROR_PARAMTER_RESPONDER_UDPRT_PORT = 8,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyIocrBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE  = 0,
+    ERROR_PARAMETER_LENGTH      = 1,
+    ERROR_PARAMETER_FRAME_ID    = 6,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyAlarmCrBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE              = 0,
+    ERROR_PARAMETER_LENGTH                  = 1,
+    ERROR_PARAMTER_MAX_ALARM_DATA_LENGTH    = 6,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyModuleDiffBlock = enum {
+    ERROR_PARAMETER_BLOCK_TYPE      = 0,
+    ERROR_PARAMETER_LENGTH          = 1,
+    ERROR_PARAMETER_SUBMODULE_STATE = 13,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArrpcBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_RESPONDER_RPC_SERVER_PORT   = 4,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArServerBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE                  = 0,
+    ERROR_PARAMETER_LENGTH                      = 1,
+    ERROR_PARAMETER_CM_RESPONDER_STATION_NAME   = 4,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type FaultyArVendorBlockRes = enum {
+    ERROR_PARAMETER_BLOCK_TYPE  = 0,
+    ERROR_PARAMETER_LENGTH      = 1,
+    ERROR_PARAMETER_API         = 5,
+    ERROR_PARAMETER_DATA        = 6,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type AlarmAckErrorCodes = enum {
+    ALARM_TYPE_NOT_SUPPORTED    = 0,
+    WRONG_SUBMODULE_STATE       = 1,
+    IOCARSR_BACKUP              = 2,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Alpmi = enum {
+    INVALID_STATE   = 0,
+    WRONG_ACK_PDU   = 1,
+    INVALID         = 2,
+    WRONG_STATE     = 3,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Alpmr = enum {
+    INVALID_STATE           = 0,
+    WRONG_NOTIFICATION_PDU  = 1,
+    INVALID                 = 2,
+    WRONG_STATE             = 3,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Rpc = enum {
+    CLRPC_ERR_REJECTED          = 1,
+    CLRPC_ERR_FAULTED           = 2,
+    CLRPC_ERR_TIMEOUT           = 3,
+    CLRPC_ERR_IN_ARGS           = 4,
+    CLRPC_ERR_OUT_ARGS          = 5,
+    CLRPC_ERR_DECODE            = 6,
+    CLRPC_ERR_PNIO_OUT_ARGS     = 7,
+    CLRPC_ERR_PNIO_APP_TIMEOUT  = 8,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Apmr = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Apms = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+    TIMEOUT             = 2,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cpm = enum {
+    INVALID_STATE   = 0,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ppm = enum {
+    INVALID_STATE   = 0,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Dcpucs = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+    TIMEOUT             = 2,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Dcpucr = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Dcpmcs = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Dcpmcr = enum {
+    INVALID_STATE       = 0,
+    LMPM_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmctl = enum {
+    STATE_CONFLICT  = 0,
+    TIMEOUT         = 1,
+    NO_DATA_SEND    = 2,
+    OUT_OF_RESOURCE = 3,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctldina = enum {
+    NO_DCP_ACTIVE                   = 0,
+    DNS_UNKNOWN                     = 1,
+    DCP_NO_REAL_STATION_NAME        = 2,
+    DCP_MULTIPLE_REAL_STATION_NAME  = 3,
+    DCP_NO_STATION_NAME             = 4,
+    NO_IP_ADDRESS                   = 5,
+    DCP_SET_ERROR                   = 6,
+    ARP_MULTIPLE_IP_ADDRESSES       = 7,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlsm = enum {
+    INVALID_STATE           = 0,
+    CTLSM_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlrdi = enum {
+    INVALID_STATE           = 0,
+    CTLRDI_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlrdr = enum {
+    INVALID_STATE           = 0,
+    CTLRDR_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlwri = enum {
+    INVALID_STATE           = 0,
+    CTLWRI_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlwrr = enum {
+    INVALID_STATE           = 0,
+    CTLWRR_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlio = enum {
+    INVALID_STATE           = 0,
+    CTLIO_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlsu = enum {
+    INVALID_STATE           = 0,
+    AR_PROVIDER_CONSUMER    = 1,
+    AR_ALARM_OPEN_FAILED    = 2,
+    AR_ALARM_ACK_SEND       = 3,
+    AR_ALARM_SEND           = 4,
+    AR_ALARM_IND            = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlrpc = enum {
+    INVALID_STATE           = 0,
+    CTLRPC_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlpbe = enum {
+    INVALID_STATE           = 0,
+    CTLPBE_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Ctlsrl = enum {
+    INVALID_STATE           = 0,
+    CTLSRL_SIGNALED_ERROR   = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmdev = enum {
+    STATE_CONFLICT  = 0,
+    RESOURCE        = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmrpc = enum {
+    ARGS_LENGTH_INVALID         = 0,
+    UNKNOWN_BLOCKS              = 1,
+    IOCR_MISSING                = 2,
+    WRONG_BLOCK_COUNT           = 3,
+    OUT_AR_RESOURCE             = 4,
+    AR_UUID_UNKOWN              = 5,
+    STATE_CONFLICT              = 6,
+    OUT_PROVIDER_CONSUMER       = 7,
+    OUT_MEMORY                  = 8,
+    PDEV_ALREADY_OWNED          = 9,
+    AR_SET_STATE_CONFLICT       = 10,
+    AR_SET_PARAMETER_CONFLICT   = 11,
+    PDEV_PORT_WITHOUT_INTERFACE = 12,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmsm = enum {
+    INVALID_STATE       = 0,
+    CMSM_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmrdr = enum {
+    INVALID_STATE           = 0,
+    CMRDR_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmwrr = enum {
+    INVALID_STATE           = 0,
+    AR_NOT_PRIMARY          = 1,
+    CMWRR_SIGNALED_ERROR    = 2,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmio = enum {
+    INVALID_STATE       = 0,
+    CMIO_SIGNALED_ERROR = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmsu = enum {
+    INVALID_STATE               = 0,
+    AR_ADD_PROVIDER_CONSUMER    = 1,
+    AR_ALARM_OPEN_FAILED        = 2,
+    AR_ALARM_SEND               = 3,
+    AR_ALARM_ACK_SEND           = 4,
+    AR_ALARM_IND                = 5,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmina = enum {
+    INVALID_STATE           = 0,
+    CMINA_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmpba = enum {
+    INVALID_STATE           = 0,
+    CMPBA_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmsrl = enum {
+    INVALID_STATE           = 0,
+    CMSRL_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type Cmdmc = enum {
+    INVALID_STATE           = 0,
+    CMDMC_SIGNALED_ERROR    = 1,
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.2.6.4.3 Table 543
+public type RtaErrClsProtocol = enum {
+    ERROR_WITHIN_COORDINATION       = 1,
+    INSTANCE_CLOSED                 = 2,
+    AR_OUT_MEMORY                   = 3,
+    AR_ADD_PROVIDER_CONSUMER        = 4,
+    AR_CONSUMER_DHT_EXPIRED         = 5,
+    AR_CMI_TIMEOUT                  = 6,
+    AR_ALARM_OPEN_FAILED            = 7,
+    AR_ALARM_SEND_CNF               = 8,
+    AR_ALARM_ACK_SEND_CNF           = 9,
+    AR_ALARM_DATA_LONG              = 10,
+    AR_ALARM_IND                    = 11,
+    AR_RPC_CLIENT_CALL              = 12,
+    AR_ABORT_REQ                    = 13,
+    AR_RE_RUN                       = 14,
+    AR_RELEASE_IND                  = 15,
+    AR_DEVICE_DEACTIVATE            = 16,
+    AR_REMOVED                      = 17,
+    AR_PROTOCOL_VIOLATION           = 18,
+    AR_NAME_RESOLUTION              = 19,
+    AR_RPC_BIND                     = 20,
+    AR_RPC_CONNECT                  = 21,
+    AR_RPC_READ                     = 22,
+    AR_RPC_WRITE                    = 23,
+    AR_RPC_CONTROL                  = 24,
+    AR_FORBIDDEN                    = 25,
+    AR_AP_REMOVED                   = 26,
+    AR_LINK_DOWN                    = 27,
+    AR_NOT_REGISTER                 = 28,
+    NOT_SYNCHRONIZED                = 29,
+    WRONG_TOPOLOGY                  = 30,
+    DCP_STATION_NAME                = 31,
+    DCP_RESET_FACTORY               = 32,
+    CANT_START_COMPANION_AR         = 33,
+    NO_IR_DATA_RECORD               = 34,
+    PDEV_OWNER_LEAVING              = 35,
+    PDEV_NO_PORT_OFFERS             = 36,
+    IP_SUITE_CHANGED                = 37,
+    IOCARSR_RDHT_EXPIRED            = 38,
+    IOCARSR_PDEV_IMPOSSIBLE         = 39,
+    REMOTE_APPLICATION_READY        = 40,
+    IOCARSR_REDUNDANT_INTERFACE     = 41,
+    IOCARSR_MTOT_EXPIRED            = 42,
+    IOCRSR_AR_PROTOCOL_VIOLATION    = 43,
+    PDEV_PLUG_WITHOUT               = 44,
+};

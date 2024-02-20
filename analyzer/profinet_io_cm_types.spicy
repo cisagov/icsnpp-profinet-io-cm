@@ -1,0 +1,62 @@
+## profinet_io_cm_types.spicy
+##
+## Spicy Analyzer File for unique Data Types
+##
+##
+## Author:   Taegan Williams
+## Contact:  taegan.williams@inl.gov
+##
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+
+module PROFINET_IO_CM_TYPES;
+import IMPORT_FUNCTIONS;
+import spicy;
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.1.2 Table 411 5.1.2 Table 411 4.10.3
+type Uuid = unit (){
+    data1           : bytes &size=4;
+    data2           : bytes &size=2;
+    data3           : bytes &size=2;
+    vendorIdLow     : bytes &size=1;
+    vendorIdHigh    : bytes &size=1;
+    deviceIdLow     : bytes &size=1;
+    deviceIdHigh    : bytes &size=1;
+    instanceLow     : bytes &size=1;
+    instanceHigh    : bytes &size=1;
+    rpcObjectUuid   : bytes &size=2;
+    var uidValue    : string &optional;
+    var nullAnswer  : bool &optional;
+    on %done {
+        if(self.vendorIdHigh == self.vendorIdLow && self.deviceIdLow == self.deviceIdHigh && self.instanceLow == self.instanceHigh && self.instanceLow == self.vendorIdHigh){
+            self.nullAnswer = True;
+        }else{
+            self.nullAnswer = False;
+        }
+        self.uidValue = IMPORT_FUNCTIONS::bytesToUuid(self.data1,self.data2,self.data3,self.vendorIdLow,self.vendorIdHigh,self.deviceIdLow,self.deviceIdHigh,self.instanceLow,self.instanceHigh,self.rpcObjectUuid);
+    }
+};
+
+# Based on Profinet Fieldbus Specification IEC 61158-6-10:2019 Section 5.1.2 Table 411 5.1.2 Table 411 4.10.3
+type UuidLittle = unit (){
+    data1           : bytes &size=4 &byte-order=spicy::ByteOrder::Little;
+    data2           : bytes &size=2 &byte-order=spicy::ByteOrder::Little;
+    data3           : bytes &size=2 &byte-order=spicy::ByteOrder::Little;
+    vendorIdLow     : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    vendorIdHigh    : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    deviceIdLow     : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    deviceIdHigh    : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    instanceLow     : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    instanceHigh    : bytes &size=1 &byte-order=spicy::ByteOrder::Little;
+    rpcObjectUuid   : bytes &size=2 &byte-order=spicy::ByteOrder::Little;
+    var uidValue    : string &optional;
+    var nullAnswer  : bool &optional;
+    on %done {
+        if(self.vendorIdHigh == self.vendorIdLow && self.deviceIdLow == self.deviceIdHigh && self.instanceLow == self.instanceHigh && self.instanceLow == self.vendorIdHigh){
+            self.nullAnswer = True;
+        }else{
+            self.nullAnswer = False;
+        }
+        self.uidValue = IMPORT_FUNCTIONS::bytesToUuid(self.data1,self.data2,self.data3,self.vendorIdLow,self.vendorIdHigh,self.deviceIdLow,self.deviceIdHigh,self.instanceLow,self.instanceHigh,self.rpcObjectUuid);
+    }
+} &byte-order=spicy::ByteOrder::Little;
+

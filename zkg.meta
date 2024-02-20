@@ -1,0 +1,22 @@
+[package]
+summary = Profinet I/O Context Manager (as defined in Profinet Fieldbus Specification IEC 61158-6-10:2019)
+description = Profinet I/O Context Manager uses traditional Ethernet hardware and software to define a network that
+    structures the task of exchanging data, alarms and diagnostics with programmable controllers
+    and other automation controllers
+credits = Taegan Williams <taegan.williams@inl.gov>
+tags = profinet, profinet io cm, pn_io, power, SCADA, ICS, CISA, INL, ICSNPP, icsnpp, zeek plugin, log writer, protocol analyzer
+script_dir = analyzer
+plugin_dir = build/spicy-modules
+build_command = mkdir -p build && cd build && SPICYZ=$(command -v spicyz || echo %(package_base)s/spicy-plugin/build/bin/spicyz) cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build .
+test_command = cd testing && btest -c btest.cfg
+depends =
+  zeek >=6.0.3
+
+[template]
+source = package-template-spicy
+version = master
+zkg_version = 2.12.0
+
+[template_vars]
+namespace = profinet_io_cm_message
+name = Messages
