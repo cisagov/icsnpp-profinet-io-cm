@@ -18,6 +18,20 @@ hook set_connection_log_profinet(c: connection) {
 event PROFINET_IO_CM::RpcHeaderEvt(c: connection, is_orig: bool,_rpcHeader_: PROFINET_IO_CM::RpcHeader){
     hook set_connection_log_profinet(c);
     local _rpc_header_                        = c$log_profinet;
+
+    # Set source and destination information
+    if (is_orig) {
+        _rpc_header_$source_h      = c$id$orig_h;
+        _rpc_header_$source_p      = c$id$orig_p;
+        _rpc_header_$destination_h = c$id$resp_h;
+        _rpc_header_$destination_p = c$id$resp_p;
+    } else {
+        _rpc_header_$source_h      = c$id$resp_h;
+        _rpc_header_$source_p      = c$id$resp_p;
+        _rpc_header_$destination_h = c$id$orig_h;
+        _rpc_header_$destination_p = c$id$orig_p;
+    }
+
     _rpc_header_$rpc_version                   = _rpcHeader_$rpcVersion;
     _rpc_header_$packet_type                   = PDU_TYPE[_rpcHeader_$pduType$packetType];
     _rpc_header_$reserved_for_impl_1            = _rpcHeader_$rpcFlags1$implementationSpecificSetTo0_1;

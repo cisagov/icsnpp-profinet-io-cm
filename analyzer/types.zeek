@@ -15,6 +15,13 @@ export {
         ts                             : time &log;
         uid                            : string &log;
         id                             : conn_id &log;
+
+        # Source/Destination
+        source_h                      : addr &log &optional;  # Source IP Address
+        source_p                      : port &log &optional;  # Source Port
+        destination_h                 : addr &log &optional;  # Destination IP Address
+        destination_p                 : port &log &optional;  # Destination Port
+
         proto                          : string &log;
         rpc_version                    : count &log &optional;
         packet_type                    : string &log &optional;
