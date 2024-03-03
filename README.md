@@ -23,7 +23,7 @@ $ zkg refresh
 $ zkg install icsnpp-profinet-io-cm
 ```
 
-If this package is installed from ZKG, it will be added to the available plugins. This can be tested by running `zeek -NN`. If installed correctly, users will see `ANALYZER_SPICY_PNIO_CM_UDP` under the list of `Zeek::Spicy` analyzers.
+If this package is installed from ZKG, it will be added to the available plugins. This can be tested by running `zeek -NN`. If installed correctly, users will see `ANALYZER_SPICY_PROFINET_IO_CM` under the list of `Zeek::Spicy` analyzers.
 
 If users have ZKG configured to load packages (see `@load packages` in the [ZKG Quickstart Guide](https://docs.zeek.org/projects/package-manager/en/stable/quickstart.html)), this plugin and these scripts will automatically be loaded and ready to go.
 
@@ -42,6 +42,10 @@ This log summarizes, by connection, DCE/RPC frames transmitted using version 4 t
 | ts                             | time            | Timestamp (network time)                                                       |
 | uid                            | string          | Uinque ID for this connection                                                  |
 | id                             | conn_id         | Default Zeek connection info (IP Addresses, Ports, etc.)                       |
+| source_h                       | address         | Source IP address (see *Source and Destination Fields*)                        |
+| source_p                       | port            | Source Port (see *Source and Destination Fields*)                              |
+| destination_h                  | address         | Destination IP address (see *Source and Destination Fields*)                   |
+| destination_p                  | port            | Destination Port (see *Source and Destination Fields*)                         |
 | proto                          | string          | Transport protocol                                                             |
 | rpc_version                    | count           | Used RPC version                                                               |
 | packet_type                    | string          | Packet Type: Request, Response, Fault, etc.                                    |
@@ -79,3 +83,19 @@ This log summarizes, by connection, DCE/RPC frames transmitted using version 4 t
 | serial_number                  | count           | Serial number                                                                  |
 | sel_ack_len                    | count           | Selective ACK length                                                           |
 | array_of_sel_ack               | vector of count | Array of selective ACK                                                         |
+
+### Source and Destination Fields
+
+Zeek's typical behavior is to focus on and log packets from the originator and not log packets from the responder. However, most ICS protocols contain useful information in the responses, so the ICSNPP parsers log both originator and responses packets. Zeek's default behavior, defined in its `id` struct, is to never switch these originator/responder roles which leads to inconsistencies and inaccuracies when looking at ICS traffic that logs responses.
+
+The default Zeek `id` struct contains the following logged fields:
+* id.orig_h (Original Originator/Source Host)
+* id.orig_p (Original Originator/Source Port)
+* id.resp_h (Original Responder/Destination Host)
+* id.resp_p (Original Responder/Destination Port)
+
+To not break existing platforms that utilize the default `id` struct functionality, the ICSNPP team has added four new fields to each log file instead of changing Zeek's default behavior. These four new fields provide the accurate information regarding source and destination IP addresses and ports:
+* source_h (True Originator/Source Host)
+* source_p (True Originator/Source Port)
+* destination_h (True Responder/Destination Host)
+* destination_p (True Responder/Destination Port)
