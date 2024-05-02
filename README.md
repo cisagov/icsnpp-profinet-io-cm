@@ -99,3 +99,6 @@ To not break existing platforms that utilize the default `id` struct functionali
 * source_p (True Originator/Source Port)
 * destination_h (True Responder/Destination Host)
 * destination_p (True Responder/Destination Port)
+
+## Coverage
+Roughly 10% of the defined protocol specification is covered by this parser.  The intent of the parser is to provide an intiial implementation that covers primarily header information to inlucde the transport protocol, RPC version, packet type, etc.  See the [Logging Capabilities](#logging-capabilities) section for detailed information of the parser coverage.
