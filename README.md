@@ -139,5 +139,5 @@ Updates to Zeek ICS Protocol Parsers:
 
 ### License
 
-Copyright 2023 Battelle Energy Alliance, LLC. Released under the terms of the 3-Clause BSD License (see [`LICENSE.txt`](./LICENSE.txt)).
+Copyright 2024 Battelle Energy Alliance, LLC. Released under the terms of the 3-Clause BSD License (see [`LICENSE.txt`](./LICENSE.txt)).
 
