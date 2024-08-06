@@ -21,7 +21,7 @@ public type Messages = unit {
 
 type ConfigFragmentation = map<string, Message>;
 
-type Message = unit(inout cfgFrag : ConfigFragmentation&) {
+type Message = unit(cfgFrag : ConfigFragmentation&) {
     rpcHeader           : PROFINET_IO_CM_RPC_HEADER::RpcHeader;
     var operationNum    : PROFINET_IO_CM_ENUMS::PnioServicesValue &optional;
     var activityUuid    : string &optional;
