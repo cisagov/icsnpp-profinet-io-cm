@@ -1,12 +1,12 @@
-## profinet_io_processing.zeek
-##
-## Zeek Processing. Matches the Types from Spicy (exported .evt) to zeek (types.zeek)
-##
-##
-## Author:   Taegan Williams
-## Contact:  taegan.williams@inl.gov
-##
-## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+##! profinet_io_processing.zeek
+##!
+##! Zeek Processing. Matches the Types from Spicy (exported .evt) to zeek (types.zeek)
+##!
+##!
+##! Author:   Taegan Williams
+##! Contact:  taegan.williams@inl.gov
+##!
+##! Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module PROFINET_IO_CM;
 

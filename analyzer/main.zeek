@@ -1,12 +1,12 @@
-## main.zeek
-##
-## Zeek script type/record definitions describing the information
-## that will be written to the log files.
-##
-## Author:   Taegan Williams
-## Contact:  taegan.williams@inl.gov
-##
-## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+##! main.zeek
+##!
+##! Zeek script type/record definitions describing the information
+##! that will be written to the log files.
+##!
+##! Author:   Taegan Williams
+##! Contact:  taegan.williams@inl.gov
+##!
+##! Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module PROFINET_IO_CM;
 
