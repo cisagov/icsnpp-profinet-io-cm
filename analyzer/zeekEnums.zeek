@@ -1,12 +1,12 @@
-## zeekEnums.zeek
-##
-## zeek constants that convert spicy enums to zeek strings
-##
-##
-## Author:   Taegan Williams
-## Contact:  taegan.williams@inl.gov
-##
-## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+##! zeekEnums.zeek
+##!
+##! zeek constants that convert spicy enums to zeek strings
+##!
+##!
+##! Author:   Taegan Williams
+##! Contact:  taegan.williams@inl.gov
+##!
+##! Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module PROFINET_IO_CM;
 

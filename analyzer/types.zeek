@@ -1,12 +1,12 @@
-## types.zeek
-##
-## Zeek records and field types
-##
-##
-## Author:   Taegan Williams
-## Contact:  taegan.williams@inl.gov
-##
-## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
+##! types.zeek
+##!
+##! Zeek records and field types
+##!
+##!
+##! Author:   Taegan Williams
+##! Contact:  taegan.williams@inl.gov
+##!
+##! Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module PROFINET_IO_CM;
 
