@@ -23,7 +23,6 @@ export {
 
 # redefine connection record to contain one of each of the pnio_cm records
 redef record connection += {
-    profinet_proto: string &optional;
     log_profinet : Profinet_Header &optional;
 };
 
@@ -37,8 +36,6 @@ event zeek_init() &priority=5 {
 function emit_header_log(c: connection) {
     if (! c?$log_profinet )
         return;
-    if (c?$profinet_proto)
-        c$log_profinet$proto = c$profinet_proto;
     Log::write(PROFINET_IO_CM::LOG_PROFINET, c$log_profinet);
     delete c$log_profinet;
 }
