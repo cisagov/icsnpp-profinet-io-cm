@@ -22,7 +22,7 @@ export {
         destination_h                 : addr &log &optional;  # Destination IP Address
         destination_p                 : port &log &optional;  # Destination Port
 
-        proto                          : string &log;
+        proto                          : transport_proto &log;
         rpc_version                    : count &log &optional;
         packet_type                    : string &log &optional;
         reserved_for_impl_1            : bool &log &optional;

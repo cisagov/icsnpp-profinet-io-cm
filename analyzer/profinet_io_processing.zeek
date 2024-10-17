@@ -12,7 +12,7 @@ module PROFINET_IO_CM;
 
 hook set_connection_log_profinet(c: connection) {
     if ( ! c?$log_profinet )
-        c$log_profinet = PROFINET_IO_CM::Profinet_Header($ts=network_time(),$uid=c$uid, $id=c$id, $proto="profinet_io_cm");
+        c$log_profinet = PROFINET_IO_CM::Profinet_Header($ts=network_time(),$uid=c$uid, $id=c$id, $proto=get_conn_transport_proto(c$id));
 }
 
 event PROFINET_IO_CM::RpcHeaderEvt(c: connection, is_orig: bool,_rpcHeader_: PROFINET_IO_CM::RpcHeader){
