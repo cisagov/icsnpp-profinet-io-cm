@@ -28,7 +28,7 @@ type Message = unit(cfgFrag : ConfigFragmentation&) {
     var lenOfBody       : uint16 &optional;
     var fragmentNum     : uint16 &optional;
     var fragmentData    : bytes &optional;
-                        : bytes &eod &chunked &optional if(self.lenOfBody != 0){
+                        : bytes &eod &chunked if(self.lenOfBody != 0){
                             if(self.rpcHeader.rpcFlags1.fragment == True && self.rpcHeader.rpcFlags1.lastFragment == False){
                                 self.fragmentData = $$;
                                 cfgFrag[self.activityUuid] = self;
@@ -67,11 +67,11 @@ type Message = unit(cfgFrag : ConfigFragmentation&) {
 };
 
 type Service = unit(message: Message) {
-    ndrDataResponseBig      : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseBig() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
-    ndrDataRequestBig       : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestBig() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
-    ndrDataResponseLittle   : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseLittle() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
-    ndrDataRequestLittle    : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestLittle() &optional if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
-    restOfData              : bytes &eod &optional;
+    ndrDataResponseBig      : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseBig() if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrDataRequestBig       : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestBig() if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrDataResponseLittle   : PROFINET_IO_CM_RPC_HEADER::NdrDataResponseLittle() if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::RESPONSE && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    ndrDataRequestLittle    : PROFINET_IO_CM_RPC_HEADER::NdrDataRequestLittle() if((message.rpcHeader.rpcFlags1.fragment == False || (message.rpcHeader.rpcFlags1.fragment == True && message.rpcHeader.rpcFlags1.lastFragment == True)) && message.rpcHeader.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::REQUEST && message.rpcHeader.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    restOfData              : bytes &eod;
 
     on %error(msg: string) {
         ## Debug
