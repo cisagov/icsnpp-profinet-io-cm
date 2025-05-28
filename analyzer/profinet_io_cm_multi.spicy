@@ -19,17 +19,17 @@ type PnioStatus = unit(){
     errorCode1PnioRW                                : bitfield(8){
         errorClass                                  : 4..7 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1Class($$);
         errorCode                                   : 0..3;
-    } &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW);
-    errorCode1                                      : uint8 &convert=PROFINET_IO_CM_ENUMS::PnioStatusErrorCode($$) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::NO_ERROR && PROFINET_IO_CM_ENUMS::PnioStatusErrorCode::NO_ERROR);
-    errorCode2                                      : uint8 &convert=PROFINET_IO_CM_ENUMS::PnioStatusErrorCode($$) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::NO_ERROR && PROFINET_IO_CM_ENUMS::PnioStatusErrorCode::NO_ERROR);
-    errorCodeApplication                            : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeApplication(self.errorCode1PnioRW.errorCode) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::APPLICATION);
-    errorCodeAccess                                 : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeAccess(self.errorCode1PnioRW.errorCode) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::ACCESS);
-    errorCodeResource                               : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeResource(self.errorCode1PnioRW.errorCode) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::RESOURCE);
-    errorCode2PnioRW                                : uint8 &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW);
+    } if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW);
+    errorCode1                                      : uint8 &convert=PROFINET_IO_CM_ENUMS::PnioStatusErrorCode($$) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::NO_ERROR && PROFINET_IO_CM_ENUMS::PnioStatusErrorCode::NO_ERROR);
+    errorCode2                                      : uint8 &convert=PROFINET_IO_CM_ENUMS::PnioStatusErrorCode($$) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::NO_ERROR && PROFINET_IO_CM_ENUMS::PnioStatusErrorCode::NO_ERROR);
+    errorCodeApplication                            : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeApplication(self.errorCode1PnioRW.errorCode) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::APPLICATION);
+    errorCodeAccess                                 : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeAccess(self.errorCode1PnioRW.errorCode) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::ACCESS);
+    errorCodeResource                               : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1CodeResource(self.errorCode1PnioRW.errorCode) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW && self.errorCode1PnioRW.errorClass == PROFINET_IO_CM_ENUMS::ErrorCode1Class::RESOURCE);
+    errorCode2PnioRW                                : uint8 if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIORW);
 
-    errorCode1ManufacturerSpecific                  : uint8 &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::MANUFACTURER_SPECIFIC);
-    errorCode2ManufacturerSpecific                  : uint8 &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::MANUFACTURER_SPECIFIC);
-    errorCode1Pnio                                  : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1Pnio($$) &optional if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIO);
+    errorCode1ManufacturerSpecific                  : uint8 if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::MANUFACTURER_SPECIFIC);
+    errorCode2ManufacturerSpecific                  : uint8 if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::MANUFACTURER_SPECIFIC);
+    errorCode1Pnio                                  : uint8 &convert=PROFINET_IO_CM_ENUMS::ErrorCode1Pnio($$) if(self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIO);
     errorCode2PnioFaultyArBlockReq                  : uint8 &convert=PROFINET_IO_CM_ENUMS::FaultyArBlockReq($$) if (self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIO && self.errorCode1Pnio == PROFINET_IO_CM_ENUMS::ErrorCode1Pnio::FAULTY_AR_BLOCK_REQ);
     errorCode2PnioFaultyIocrBlockReq                : uint8 &convert=PROFINET_IO_CM_ENUMS::FaultyIocrBlockReq($$) if (self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIO && self.errorCode1Pnio == PROFINET_IO_CM_ENUMS::ErrorCode1Pnio::FAULTY_IOCR_BLOCK_REQ);
     errorCode2PnioFaultyExpectedSubmoduleBlockReq   : uint8 &convert=PROFINET_IO_CM_ENUMS::FaultyExpectedSubmoduleBlockReq($$) if (self.errorDecode == PROFINET_IO_CM_ENUMS::PnioStatusErrorDecode::PNIO && self.errorCode1Pnio == PROFINET_IO_CM_ENUMS::ErrorCode1Pnio::FAULTY_EXPECTED_SUBMODULE_BLOCK_REQ);

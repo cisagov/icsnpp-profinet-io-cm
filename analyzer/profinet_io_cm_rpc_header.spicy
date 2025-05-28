@@ -56,7 +56,7 @@ type RpcBodyBigEndian = unit {
     rpcMaxFragSize      : uint32;
     rpcSerialNumber     : uint16;
     rpcSelAckLen        : uint16;
-    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen] &optional;
+    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen];
     additionalBytes     : bytes &eod;
  } &byte-order=spicy::ByteOrder::Big;
 
@@ -89,7 +89,7 @@ type NdrFackLittle = unit(){
     rpcMaxFragSize      : uint32;
     rpcSerialNumber     : uint16;
     rpcSelAckLen        : uint16;
-    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen] &optional;
+    rpcArrayOfSelAck    : uint32[self.rpcSelAckLen];
     additionalBytes     : bytes &eod;
 } &byte-order=spicy::ByteOrder::Little;
 
@@ -150,8 +150,8 @@ type RpcHeader = unit () {
         implementationSpecificSetTo0_3  : 0 &convert=cast<bool>($$);
     };
     drepBytes                       : Data_Rep(); # DrepBytes sets a character encoding that determines if the following fields are little or big endian
-    rpcBodyLittleEndian             : RpcBodyLittleEndian() &optional if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
-    ndrFackLittle                   : NdrFackLittle() &optional if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
-    rpcBodyBigEndian                : RpcBodyBigEndian() &optional if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
-    ndrFackBig                      : NdrFackBig()  &optional if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    rpcBodyLittleEndian             : RpcBodyLittleEndian() if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    ndrFackLittle                   : NdrFackLittle() if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_LITTLE_ENDIAN);
+    rpcBodyBigEndian                : RpcBodyBigEndian() if(self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
+    ndrFackBig                      : NdrFackBig() if(self.pduType.packetType == PROFINET_IO_CM_ENUMS::PduType::FRAGMENT_ACKNOWLEDGE && self.drepBytes.characterIntegerEncoding.rpcdRepIntegerEncoding == PROFINET_IO_CM_ENUMS::RpcdRepIntegerEncoding::_BIG_ENDIAN);
 };
