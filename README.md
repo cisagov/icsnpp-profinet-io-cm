@@ -37,7 +37,7 @@ mkdir build && cd build && cmake .. && make && cd ..
 
 From here you can install the locally built files through `zkg install ./icsnpp-profinet-io-cm` and run it like you would normally.
 
-Or you can manually run the parser without installing it: `zeek ./build/profinet_io_cm.hlto ./scripts/__load__.zeek  -Cr <pcap>`
+Or you can manually run the parser without installing it: `zeek ./build/profinet_io_cm.hlto ./analyzer/__load__.zeek  -Cr <pcap>`
 
 ## Logging Capabilities
 
