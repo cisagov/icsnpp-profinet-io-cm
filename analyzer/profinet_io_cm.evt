@@ -37,7 +37,3 @@ on PROFINET_IO_CM_RPC_HEADER::RpcHeader -> event PROFINET_IO_CM::RpcHeaderEvt(
    $is_orig,
    self
 );
-
-
-PROFINET_IO_CM_TYPES::Uuid` does not refer to an ID
-PROFINET_IO_CM_TYPES::UuidLittle` does not refer to an ID
