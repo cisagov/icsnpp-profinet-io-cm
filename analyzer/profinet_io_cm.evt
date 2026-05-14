@@ -10,6 +10,7 @@
 
 import PROFINET_IO_CM_MESSAGE;
 import PROFINET_IO_CM_RPC_HEADER;
+import PROFINET_IO_CM_TYPES;
 import Zeek_PROFINETIO;
 
 protocol analyzer spicy::PROFINET_IO_CM over UDP:
@@ -36,4 +37,3 @@ on PROFINET_IO_CM_RPC_HEADER::RpcHeader -> event PROFINET_IO_CM::RpcHeaderEvt(
    $is_orig,
    self
 );
-
