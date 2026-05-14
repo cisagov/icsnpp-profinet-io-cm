@@ -10,6 +10,7 @@
 
 import PROFINET_IO_CM_MESSAGE;
 import PROFINET_IO_CM_RPC_HEADER;
+import PROFINET_IO_CM_TYPES;
 import Zeek_PROFINETIO;
 
 protocol analyzer spicy::PROFINET_IO_CM over UDP:
@@ -37,3 +38,6 @@ on PROFINET_IO_CM_RPC_HEADER::RpcHeader -> event PROFINET_IO_CM::RpcHeaderEvt(
    self
 );
 
+
+PROFINET_IO_CM_TYPES::Uuid` does not refer to an ID
+PROFINET_IO_CM_TYPES::UuidLittle` does not refer to an ID
