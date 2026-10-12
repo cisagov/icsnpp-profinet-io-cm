@@ -48,9 +48,9 @@ Or you can manually run the parser without installing it: `zeek ./build/profinet
 
 ## Custom Ports
 
-The parser supports PROFINET IO CM DCE/RPC over UDP. TCP is not supported. It uses
-both port-based analyzer registration and a UDP payload signature. The default
-server port is `34964/udp`.
+The parser analyzes PROFINET IO CM DCE/RPC over UDP. It uses both port-based
+analyzer registration and a UDP payload signature. The default server port is
+`34964/udp`.
 
 To retain the default and add a non-standard UDP server port such as 12345,
 extend `PROFINET_IO_CM::udp_ports` in a Zeek policy file such as `local.zeek`:
