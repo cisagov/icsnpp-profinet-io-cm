@@ -19,6 +19,12 @@ export {
 
     ## Log policies for log filtering
     global log_policy_profinet: Log::PolicyHook;
+
+    ## UDP ports assigned directly to the PROFINET IO CM analyzer and used to
+    ## infer the server side of a connection.
+    const udp_ports: set[port] = {
+        34964/udp,
+    } &redef;
 }
 
 # redefine connection record to contain one of each of the pnio_cm records
@@ -27,6 +33,11 @@ redef record connection += {
 };
 
 event zeek_init() &priority=5 {
+    for ( p in udp_ports )
+        add likely_server_ports[p];
+
+    Analyzer::register_for_ports(Analyzer::ANALYZER_SPICY_PROFINET_IO_CM, udp_ports);
+
     Log::create_stream(LOG_PROFINET,[$columns=Profinet_Header,
                                      $ev=log_profinet,
                                      $path="profinet_io_cm",
