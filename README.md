@@ -46,6 +46,50 @@ From here you can install the locally built files through `zkg install ./icsnpp-
 
 Or you can manually run the parser without installing it: `zeek ./build/profinet_io_cm.hlto ./analyzer/__load__.zeek  -Cr <pcap>`
 
+## Custom Ports
+
+The parser analyzes PROFINET IO CM DCE/RPC over UDP. It uses both port-based
+analyzer registration and a UDP payload signature. The default server port is
+`34964/udp`.
+
+To retain the default and add a non-standard UDP server port such as 12345,
+extend `PROFINET_IO_CM::udp_ports` in a Zeek policy file such as `local.zeek`:
+
+```zeek
+redef PROFINET_IO_CM::udp_ports += { 12345/udp };
+```
+
+To replace the default port rather than retain it, assign a new set:
+
+```zeek
+redef PROFINET_IO_CM::udp_ports = { 12345/udp };
+```
+
+`PROFINET_IO_CM::udp_ports` is registered directly with the UDP analyzer, so
+traffic whose inferred server port is in that set is passed to the analyzer.
+The same set is also added to Zeek's `likely_server_ports` set to improve
+originator/responder direction inference. `likely_server_ports` is only a
+direction heuristic; analyzer registration through `PROFINET_IO_CM::udp_ports`
+is what enables port-based parsing.
+
+Port configuration is read when Zeek initializes. Restart a standalone Zeek
+process, or redeploy/restart Zeek cluster workers, after changing the policy. A
+parser rebuild or package reinstall is not required for port-only changes.
+
+Direct port registration assigns traffic on a configured server port to the
+PROFINET IO CM analyzer. Configure only ports dedicated to PROFINET IO CM;
+unrelated or malformed traffic on those ports incurs parsing overhead and will
+be rejected when it does not parse as PROFINET IO CM.
+
+### Signature Detection
+
+The UDP payload signatures in [`analyzer/dpd.sig`](analyzer/dpd.sig) can detect
+valid PROFINET IO CM DCE/RPC traffic on non-standard ports without port
+configuration. They are not restricted to a port or payload direction and apply
+to both client-to-server and server-to-client UDP payloads. No signature change
+is required for a custom port. Adding a port to `PROFINET_IO_CM::udp_ports` enables
+deterministic port-based assignment in addition to signature-based detection.
+
 ## Logging Capabilities
 
 ### Profinet I/O CM DCE/RPC Log (profinet_io_cm.log)
@@ -130,4 +174,3 @@ All ICSNPP Packages:
 ### License
 
 Copyright 2024 Battelle Energy Alliance, LLC. Released under the terms of the 3-Clause BSD License (see [`LICENSE.txt`](./LICENSE.txt)).
-
